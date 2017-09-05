@@ -6,6 +6,7 @@
 </div>
 <div id="send-message-button">
 </div>
+<textarea maxLength="160" id="message-entry" class="hidden" type="textarea" wrap="physical" ></textarea>
 <div id="contacts-master">
   <% @response['data'].map do |contact| %>
     <div class="contact" data-uuid=<%= contact['id'] %>>
@@ -20,30 +21,41 @@
 
   let contact;
   let selected;
-
-  $("#contacts-master").append("<div class='contact-line'>Test</div>");
-  $("#contacts-master").append("<div class='contact-line'>Test</div>");
-  $("#contacts-master").append("<div class='contact-line'>Testing an extra long string</div>");
-  $("#contacts-master").append("<div class='contact-line'>Test</div>");
-  $("#contacts-master").append("<div class='contact-line'>Test</div>");
+  let isComposing = false;
 
   function updateSelected(el) {
     if(selected) {
-      // selected.css("text-shadow","0px 0px 0px black");
       selected.removeClass("selected");
     }
     selected = el;
-    // selected.css("text-shadow","0px 0px 1px black");
       selected.addClass("selected");
   }
 
-  function sendMessage() {
+  function revealMessageEntry() {
+    $("#message-entry").val("");
+    $('#message-entry').removeClass("hidden");
+  }
+
+  function hideMessageEntry() {
+    $("#message-entry").val("");
+    $('#message-entry').addClass("hidden");
+  }
+
+  function revealContactMaster() {
+    $("#contacts-master").removeClass("hidden");
+  }
+
+  function hideContactMaster() {
+    $("#contacts-master").addClass("hidden");
+  }
+
+  function sendMessage(message) {
     $.ajax({
       method: "POST",
       url: window.location.href + "contacts",
       data: {
         "id": contact.getAttribute("data-uuid"),
-        "message": "test message"
+        "message": message
       },
       success: function(data) {
         console.log(data);
@@ -70,7 +82,16 @@
 
     $("#send-message-button").click(function(e) {
       e.preventDefault();
-      sendMessage();
+      if(isComposing === false) {
+        isComposing = true;
+        hideContactMaster();
+        revealMessageEntry();
+        $("#message-entry").focus();
+      } else {
+        sendMessage($("#message-entry").val());
+        hideMessageEntry();
+        revealContactMaster();
+      }
 
     });
 

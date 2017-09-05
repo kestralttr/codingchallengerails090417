@@ -13,6 +13,21 @@ h1 {
   text-align: center;
 }
 
+textarea {
+  resize: none;
+  background-color: rgba(0,0,0,0);
+  border: none;
+  outline: 0;
+}
+
+textarea:focus {
+  outline: 0;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
 #phone-image {
   background: url('http://res.cloudinary.com/dzo2s4ovl/image/upload/v1504632224/nokia3310_dvohbu.png') no-repeat center;
   background-size: contain;
@@ -31,6 +46,18 @@ h1 {
   height:120px;
   transform:translateX(-50%);
   z-index:20;
+  overflow:auto;
+}
+
+#message-entry {
+  font-family: 'nokiafc22';
+  position:absolute;
+  top:245px;
+  left:50%;
+  width:165px;
+  height:120px;
+  transform:translateX(-50%);
+  z-index:30;
   overflow:auto;
 }
 
