@@ -1,6 +1,6 @@
 <h1>This is working now!</h1>
 
-<div id="contacts-master" data-apiToken=<%=@api_token%>>
+<div id="contacts-master">
   <% @response['data'].map do |contact| %>
     <div class="contact" data-uuid=<%= contact['id'] %>>
       <div class="contact-line"> <%= contact['first_name'] %> <%= contact['last_name'] %> </div>
@@ -14,13 +14,10 @@
   let contact;
 
   $(document).ready(function() {
-    let envApiToken = document.getElementById("contacts-master").getAttribute("data-apiToken");
     $(".contact-button").click(function(e) {
       e.preventDefault();
       contact = this.parentNode;
-      console.log(contact);
-      console.log(contact.getAttribute("data-uuid"));
-      console.log(envApiToken);
+      console.log("id: ", contact.getAttribute("data-uuid"));
       $.ajax({
         method: "POST",
         url: window.location.href + "contacts",
