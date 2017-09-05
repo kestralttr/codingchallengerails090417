@@ -1,4 +1,4 @@
-<h1>This is working now!</h1>
+<h1>This is working!</h1>
 
 <div id="contacts-master">
   <% @response['data'].map do |contact| %>
@@ -22,7 +22,8 @@
         method: "POST",
         url: window.location.href + "contacts",
         data: {
-          "id": contact.getAttribute("data-uuid")
+          "id": contact.getAttribute("data-uuid"),
+          "message": "test message"
         },
         success: function(data) {
           console.log(data);
