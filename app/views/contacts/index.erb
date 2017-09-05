@@ -12,27 +12,26 @@
 <script>
 
   let contact;
-  let envApiToken = $("#contacts-master").data("apiToken");
 
   $(document).ready(function() {
+    let envApiToken = document.getElementById("contacts-master").getAttribute("data-apiToken");
     $(".contact-button").click(function(e) {
       e.preventDefault();
-      contact = $(this).parent();
+      contact = this.parentNode;
       console.log(contact);
+      console.log(contact.getAttribute("data-uuid"));
       console.log(envApiToken);
       $.ajax({
         method: "POST",
-        url: "https://stage.skipio.com/api/v2/messages?token=" + envApiToken,
+        url: window.location.href + "contacts",
         data: {
-          "recipients": [
-            "contact" + contact.data("uuid")
-          ],
-          "message": {
-            "body": "This SMS message will be sent immediately"
-          }
+          "id": contact.getAttribute("data-uuid")
         },
-        headers: {
-          'Content-Type':'application/json'
+        success: function(data) {
+          console.log(data);
+        },
+        error: function(xhr, error) {
+          console.log(xhr);
         }
       })
     });
