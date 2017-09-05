@@ -89,6 +89,7 @@
         $("#message-entry").focus();
       } else {
         sendMessage($("#message-entry").val());
+        isComposing = false;
         hideMessageEntry();
         revealContactMaster();
       }
