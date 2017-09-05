@@ -1,8 +1,10 @@
-<h1>This is working!</h1>
+<h1>The Rails 3310</h1>
 
 <div id="phone-image">
 </div>
 <div id="screen-background">
+</div>
+<div id="send-message-button">
 </div>
 <div id="contacts-master">
   <% @response['data'].map do |contact| %>
@@ -17,32 +19,59 @@
 <script>
 
   let contact;
+  let selected;
 
   $("#contacts-master").append("<div class='contact-line'>Test</div>");
   $("#contacts-master").append("<div class='contact-line'>Test</div>");
+  $("#contacts-master").append("<div class='contact-line'>Testing an extra long string</div>");
   $("#contacts-master").append("<div class='contact-line'>Test</div>");
   $("#contacts-master").append("<div class='contact-line'>Test</div>");
-  $("#contacts-master").append("<div class='contact-line'>Test</div>");
+
+  function updateSelected(el) {
+    if(selected) {
+      // selected.css("text-shadow","0px 0px 0px black");
+      selected.removeClass("selected");
+    }
+    selected = el;
+    // selected.css("text-shadow","0px 0px 1px black");
+      selected.addClass("selected");
+  }
+
+  function sendMessage() {
+    $.ajax({
+      method: "POST",
+      url: window.location.href + "contacts",
+      data: {
+        "id": contact.getAttribute("data-uuid"),
+        "message": "test message"
+      },
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(xhr, error) {
+        console.log(xhr);
+      }
+    })
+  }
 
   $(document).ready(function() {
+    updateSelected($('.contact-line').first());
+    contact = $(".contact-line")[0].parentNode;
+    console.log("first contact: ", contact);
+    console.log(selected);
+
     $(".contact-line").click(function(e) {
       e.preventDefault();
       contact = this.parentNode;
+      console.log("this: ", this);
       console.log("id: ", contact.getAttribute("data-uuid"));
-      $.ajax({
-        method: "POST",
-        url: window.location.href + "contacts",
-        data: {
-          "id": contact.getAttribute("data-uuid"),
-          "message": "test message"
-        },
-        success: function(data) {
-          console.log(data);
-        },
-        error: function(xhr, error) {
-          console.log(xhr);
-        }
-      })
+      updateSelected($(this));
+    });
+
+    $("#send-message-button").click(function(e) {
+      e.preventDefault();
+      sendMessage();
+
     });
 
   });

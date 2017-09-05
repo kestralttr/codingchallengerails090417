@@ -9,7 +9,8 @@
   font-style:normal;
 }
 
-body {
+h1 {
+  text-align: center;
 }
 
 #phone-image {
@@ -45,8 +46,27 @@ body {
   z-index:-1;
 }
 
+#send-message-button {
+  position: absolute;
+  width:90px;
+  border-radius: 10px;
+  cursor:pointer;
+  height:26px;
+  z-index:30;
+  top:2px;
+  top:392px;
+  left:50%;
+  transform:translateX(-50%);
+}
+
 .contact-line {
   font-size:12px;
   overflow:hidden;
   white-space: nowrap;
+  cursor:pointer;
+  padding-left:2px;
+}
+
+.selected:before {
+  content: "- ";
 }
