@@ -1,0 +1,12 @@
+<h1>This is working now!</h1>
+
+<% @response['data'].each do |contact| %>
+<div> <%= contact['first_name'] %> <%= contact['last_name'] %> </div>
+<button>Send SMS</button>
+<% end %>
+
+<script>
+
+
+
+</script>
