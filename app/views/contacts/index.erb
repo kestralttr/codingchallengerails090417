@@ -6,12 +6,23 @@
 </div>
 <div id="send-message-button">
 </div>
+<div id="sending-message" class="hidden">
+  <br>
+  Sending...
+</div>
+<div id="message-sent" class="hidden">
+  <br>
+  Message Sent!
+</div>
+<div id="message-failed" class="hidden">
+  <br>
+  Error!
+</div>
 <textarea maxLength="160" id="message-entry" class="hidden" type="textarea" wrap="physical" ></textarea>
 <div id="contacts-master">
   <% @response['data'].map do |contact| %>
     <div class="contact" data-uuid=<%= contact['id'] %>>
       <div class="contact-line"> <%= contact['first_name'] %> <%= contact['last_name'] %> </div>
-      <!-- <div class="contact-button">Send SMS</div> -->
     </div>
   <% end %>
 </div>
@@ -49,6 +60,30 @@
     $("#contacts-master").addClass("hidden");
   }
 
+  function revealSendingMessage() {
+    $("#sending-message").removeClass("hidden");
+  }
+
+  function hideSendingMessage() {
+    $("#sending-message").addClass("hidden");
+  }
+
+  function revealMessageSent() {
+    $("#message-sent").removeClass("hidden");
+  }
+
+  function hideMessageSent() {
+    $("#message-sent").addClass("hidden");
+  }
+
+  function revealMessageFailed() {
+    $("#message-failed").removeClass("hidden");
+  }
+
+  function hideMessageFailed() {
+    $("#message-failed").addClass("hidden");
+  }
+
   function sendMessage(message) {
     $.ajax({
       method: "POST",
@@ -59,9 +94,22 @@
       },
       success: function(data) {
         console.log(data);
+        hideSendingMessage();
+        revealMessageSent();
+        setTimeout(function() {
+          hideMessageSent();
+          revealContactMaster();
+        }, 1500);
+
       },
       error: function(xhr, error) {
         console.log(xhr);
+        hideSendingMessage();
+        revealMessageFailed();
+        setTimeout(function() {
+          hideMessageFailed();
+          revealContactMaster();
+        }, 1500);
       }
     })
   }
@@ -91,7 +139,7 @@
         sendMessage($("#message-entry").val());
         isComposing = false;
         hideMessageEntry();
-        revealContactMaster();
+        revealSendingMessage();
       }
 
     });
