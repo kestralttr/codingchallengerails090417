@@ -1,14 +1,42 @@
 <h1>This is working now!</h1>
 
-
-<% @response['data'].each do |contact| %>
-<div> <%= contact['first_name'] %> <%= contact['last_name'] %> </div>
-<button>Send SMS</button>
-<% end %>
+<div id="contacts-master" data-apiToken=<%=@api_token%>>
+  <% @response['data'].map do |contact| %>
+    <div class="contact" data-uuid=<%= contact['id'] %>>
+      <div class="contact-line"> <%= contact['first_name'] %> <%= contact['last_name'] %> </div>
+      <button class="contact-button">Send SMS</button>
+    </div>
+  <% end %>
+<div>
 
 <script>
 
+  let contact;
+  let envApiToken = $("#contacts-master").data("apiToken");
 
+  $(document).ready(function() {
+    $(".contact-button").click(function(e) {
+      e.preventDefault();
+      contact = $(this).parent();
+      console.log(contact);
+      console.log(envApiToken);
+      $.ajax({
+        method: "POST",
+        url: "https://stage.skipio.com/api/v2/messages?token=" + envApiToken,
+        data: {
+          "recipients": [
+            "contact" + contact.data("uuid")
+          ],
+          "message": {
+            "body": "This SMS message will be sent immediately"
+          }
+        },
+        headers: {
+          'Content-Type':'application/json'
+        }
+      })
+    });
 
+  });
 
 </script>
