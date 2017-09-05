@@ -1,20 +1,31 @@
 <h1>This is working!</h1>
 
+<div id="phone-image">
+</div>
+<div id="screen-background">
+</div>
 <div id="contacts-master">
   <% @response['data'].map do |contact| %>
     <div class="contact" data-uuid=<%= contact['id'] %>>
       <div class="contact-line"> <%= contact['first_name'] %> <%= contact['last_name'] %> </div>
-      <button class="contact-button">Send SMS</button>
+      <!-- <div class="contact-button">Send SMS</div> -->
     </div>
   <% end %>
-<div>
+</div>
+
 
 <script>
 
   let contact;
 
+  $("#contacts-master").append("<div class='contact-line'>Test</div>");
+  $("#contacts-master").append("<div class='contact-line'>Test</div>");
+  $("#contacts-master").append("<div class='contact-line'>Test</div>");
+  $("#contacts-master").append("<div class='contact-line'>Test</div>");
+  $("#contacts-master").append("<div class='contact-line'>Test</div>");
+
   $(document).ready(function() {
-    $(".contact-button").click(function(e) {
+    $(".contact-line").click(function(e) {
       e.preventDefault();
       contact = this.parentNode;
       console.log("id: ", contact.getAttribute("data-uuid"));
