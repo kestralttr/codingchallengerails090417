@@ -1,4 +1,4 @@
-# ReactJS Messaging App
+# Ruby on Rails Messaging App
 
 ## Objectives
 
