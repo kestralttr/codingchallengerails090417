@@ -93,7 +93,6 @@
         "message": message
       },
       success: function(data) {
-        console.log(data);
         hideSendingMessage();
         revealMessageSent();
         setTimeout(function() {
@@ -103,7 +102,6 @@
 
       },
       error: function(xhr, error) {
-        console.log(xhr);
         hideSendingMessage();
         revealMessageFailed();
         setTimeout(function() {
@@ -117,14 +115,10 @@
   $(document).ready(function() {
     updateSelected($('.contact-line').first());
     contact = $(".contact-line")[0].parentNode;
-    console.log("first contact: ", contact);
-    console.log(selected);
 
     $(".contact-line").click(function(e) {
       e.preventDefault();
       contact = this.parentNode;
-      console.log("this: ", this);
-      console.log("id: ", contact.getAttribute("data-uuid"));
       updateSelected($(this));
     });
 
